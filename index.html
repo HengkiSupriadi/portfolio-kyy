@@ -1,0 +1,1223 @@
+<!doctype html>
+<html lang="id" id="htmlRoot">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hengki Supriayadi</title>
+    <link rel="stylesheet" href="templatemo-prism-flux.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+  </head>
+  <body>
+    <div class="loader" id="loader">
+      <div class="loader-content">
+        <div class="loader-prism">
+          <div class="prism-face"></div>
+          <div class="prism-face"></div>
+          <div class="prism-face"></div>
+        </div>
+        <div
+          style="
+            color: var(--accent-purple);
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+          "
+        >
+          LOADING BRO...
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="header" id="header">
+      <nav class="nav-container">
+        <a href="#home" class="logo">
+          <div class="logo-icon">
+            <div class="logo-prism">
+              <div class="prism-shape"></div>
+            </div>
+          </div>
+          <span class="logo-text">
+            <span class="prism">Hengki Supriayadi</span>
+          </span>
+        </a>
+
+        <ul class="nav-menu" id="navMenu">
+          <li>
+            <a
+              href="#home"
+              class="nav-link active"
+              data-id="Beranda"
+              data-en="Home"
+              >Beranda</a
+            >
+          </li>
+          <li>
+            <a href="#about" class="nav-link" data-id="Tentang" data-en="About"
+              >Tentang</a
+            >
+          </li>
+          <li>
+            <a
+              href="#skills"
+              class="nav-link"
+              data-id="Keahlian"
+              data-en="Skills"
+              >Keahlian</a
+            >
+          </li>
+          <li>
+            <a
+              href="#contact"
+              class="nav-link"
+              data-id="Kontak"
+              data-en="Contact"
+              >Kontak</a
+            >
+          </li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="lang-switcher" id="langSwitcher">
+            <button
+              class="lang-current"
+              id="langCurrent"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span class="flag-icon">🇮🇩</span>
+              <span class="lang-code">ID</span>
+              <i class="fa-solid fa-chevron-down lang-arrow"></i>
+            </button>
+            <ul class="lang-dropdown" id="langDropdown">
+              <li>
+                <button class="lang-option active" data-lang="id">
+                  <span class="flag-icon">🇮🇩</span> Bahasa Indonesia
+                </button>
+              </li>
+              <li>
+                <button class="lang-option" data-lang="en">
+                  <span class="flag-icon">🇬🇧</span> English
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <style>
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .lang-switcher {
+        position: relative;
+      }
+
+      .lang-current {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #cfd0e0;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+
+      .lang-current:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .flag-icon {
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      .lang-arrow {
+        font-size: 10px;
+        margin-left: 2px;
+        transition: transform 0.2s;
+      }
+
+      .lang-switcher.open .lang-arrow {
+        transform: rotate(180deg);
+      }
+
+      .lang-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 180px;
+        background: #16162a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 6px;
+        list-style: none;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition:
+          opacity 0.2s,
+          transform 0.2s,
+          visibility 0.2s;
+        z-index: 100;
+      }
+
+      .lang-switcher.open .lang-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .lang-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 10px 12px;
+        background: transparent;
+        border: none;
+        border-radius: 6px;
+        color: #cfd0e0;
+        font-size: 14px;
+        text-align: left;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+
+      .lang-option:hover {
+        background: rgba(99, 102, 241, 0.12);
+        color: #fff;
+      }
+
+      .lang-option.active {
+        color: #6366f1;
+        font-weight: 600;
+      }
+    </style>
+
+    <script>
+      // Toggle dropdown buka/tutup
+      const langSwitcher = document.getElementById("langSwitcher");
+      const langCurrent = document.getElementById("langCurrent");
+
+      langCurrent.addEventListener("click", (e) => {
+        e.stopPropagation();
+        langSwitcher.classList.toggle("open");
+      });
+
+      // Tutup dropdown saat klik di luar
+      document.addEventListener("click", () => {
+        langSwitcher.classList.remove("open");
+      });
+
+      // Ganti bahasa saat opsi dipilih
+      const langOptions = document.querySelectorAll(".lang-option");
+      const langCode = document.querySelector(".lang-code");
+      const flagIcon = langCurrent.querySelector(".flag-icon");
+      const htmlRoot = document.getElementById("htmlRoot");
+
+      const flags = { id: "🇮🇩", en: "🇬🇧" };
+
+      function applyLanguage(lang) {
+        // Update tampilan tombol utama
+        flagIcon.textContent = flags[lang];
+        langCode.textContent = lang.toUpperCase();
+        htmlRoot.setAttribute("lang", lang);
+
+        // Update status active di dropdown
+        langOptions.forEach((o) => o.classList.remove("active"));
+        document
+          .querySelector(`.lang-option[data-lang="${lang}"]`)
+          .classList.add("active");
+
+        // Ganti semua teks yang punya data-id / data-en
+        // innerHTML dipakai (bukan textContent) agar tag <strong> di dalam
+        // teks (mis. paragraf About) tidak hilang saat bahasa diganti.
+        document.querySelectorAll("[data-id][data-en]").forEach((el) => {
+          el.innerHTML =
+            lang === "id"
+              ? el.getAttribute("data-id")
+              : el.getAttribute("data-en");
+        });
+
+        localStorage.setItem("preferredLang", lang);
+      }
+
+      langOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+          const lang = option.getAttribute("data-lang");
+          applyLanguage(lang);
+          langSwitcher.classList.remove("open");
+        });
+      });
+
+      // Muat preferensi bahasa tersimpan (opsional)
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedLang = localStorage.getItem("preferredLang");
+        if (savedLang && savedLang !== "id") {
+          applyLanguage(savedLang);
+        }
+      });
+    </script>
+
+    <!-- Hero Section with 3D Carousel -->
+    <section class="hero" id="home">
+      <div class="carousel-container">
+        <div class="carousel" id="carousel"></div>
+
+        <div class="carousel-controls">
+          <button class="carousel-btn" id="prevBtn">‹</button>
+          <button class="carousel-btn" id="nextBtn">›</button>
+        </div>
+
+        <div class="carousel-indicators" id="indicators"></div>
+      </div>
+    </section>
+
+    <section class="philosophy-section" id="about">
+      <div class="philosophy-container">
+        <div class="prism-line"></div>
+
+        <h2
+          class="philosophy-headline"
+          data-id="Tentang Saya"
+          data-en="About Me"
+        >
+          Tentang Saya
+        </h2>
+
+        <div class="about-content">
+          <div class="about-photo">
+            <img src="images/kyy-pasfoto1.png" alt="Foto Hengki" />
+          </div>
+
+          <div class="about-text">
+            <p
+              class="philosophy-subheading"
+              data-id="Saya Hengki, lulusan D3 Teknologi Informasi di Politeknik 'Aisyiyah Pontianak. Saya berfokus sebagai <strong>Fullstack Developer</strong> yang mampu membangun sistem end-to-end — mulai dari perancangan basis data, logika bisnis di sisi backend, hingga antarmuka yang responsif di sisi frontend, baik untuk platform <strong>web maupun mobile</strong>."
+              data-en="I'm Hengki, a graduate of the Information Technology (D3) program at Politeknik 'Aisyiyah Pontianak. I focus on working as a <strong>Fullstack Developer</strong>, capable of building end-to-end systems — from database design and backend business logic to responsive frontend interfaces, for both <strong>web and mobile</strong> platforms."
+            >
+              Saya Hengki Supriyadi, mahasiswa akhir D3 Teknologi Informasi di
+              Politeknik 'Aisyiyah Pontianak. Saya berfokus sebagai
+              <strong>Fullstack Developer</strong> yang mampu membangun sistem
+              end-to-end — mulai dari perancangan basis data, logika bisnis di
+              sisi backend, hingga antarmuka yang responsif di sisi frontend,
+              baik untuk platform <strong>web maupun mobile</strong>.
+            </p>
+            <p
+              class="philosophy-subheading"
+              data-id="Saya terbiasa bekerja dengan Laravel untuk pengembangan web, serta memiliki pengalaman membangun aplikasi mobile untuk memperluas jangkauan sistem yang saya kembangkan — termasuk manajemen aset kampus, distribusi barang, dan pemesanan tiket online. Selain itu, saya juga aktif berorganisasi sebagai Ketua Umum HIMTI, Wakil Presiden Mahasiswa BEM, dan Kepala Bidang IMM — pengalaman yang membentuk cara saya berpikir sistematis sekaligus bekerja sama dalam tim."
+              data-en="I'm experienced working with Laravel for web development, and have experience building mobile applications to extend the reach of the systems I develop — including campus asset management, goods distribution, and online ticket booking. I've also been active in organizations as General Chairman of HIMTI, Vice President of the Student Executive Board (BEM), and Head of Division at IMM — experiences that shaped how I think systematically and work within a team."
+            >
+              Saya terbiasa bekerja dengan Laravel untuk pengembangan web, serta
+              memiliki pengalaman membangun aplikasi mobile untuk memperluas
+              jangkauan sistem yang saya kembangkan — termasuk manajemen aset
+              kampus, distribusi barang, dan pemesanan tiket online. Selain itu,
+              saya juga aktif berorganisasi sebagai Ketua Umum HIMTI, Wakil
+              Presiden Mahasiswa BEM, dan Kepala Bidang IMM — pengalaman yang
+              membentuk cara saya berpikir sistematis sekaligus bekerja sama
+              dalam tim.
+            </p>
+
+            <a
+              href="assets/hengki-cv.pdf"
+              download="CV-Hengki-Supriyadi.pdf"
+              class="btn-download-cv"
+            >
+              <i class="fa-solid fa-download"></i>
+              <span data-id="Download CV" data-en="Download CV"
+                >Download CV</span
+              >
+            </a>
+            <style>
+              .btn-download-cv {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                padding: 14px 28px;
+                margin-top: 20px;
+
+                background: linear-gradient(
+                  135deg,
+                  var(--accent-purple),
+                  var(--accent-blue)
+                );
+                color: var(--text-primary);
+                font-size: 15px;
+                font-weight: 700;
+                font-family: inherit;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+
+                text-decoration: none;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+
+                box-shadow: 0 8px 20px rgba(153, 69, 255, 0.3);
+                transition:
+                  background 0.25s ease,
+                  transform 0.25s ease,
+                  box-shadow 0.25s ease;
+              }
+
+              .btn-download-cv:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 28px rgba(153, 69, 255, 0.5);
+              }
+
+              .btn-download-cv:active {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 14px rgba(153, 69, 255, 0.35);
+              }
+
+              .btn-download-cv i {
+                font-size: 14px;
+              }
+            </style>
+          </div>
+        </div>
+
+        <div class="philosophy-pillars">
+          <div class="pillar">
+            <div class="pillar-icon">∞</div>
+            <h3
+              class="pillar-title"
+              data-id="Fullstack Development"
+              data-en="Fullstack Development"
+            >
+              Fullstack Development
+            </h3>
+            <p
+              class="pillar-description"
+              data-id="Menguasai alur pengembangan end-to-end — dari backend hingga frontend sehingga mampu membangun sistem web dan mobile secara utuh."
+              data-en="Mastering the end-to-end development flow — from backend to frontend — enabling me to build complete web and mobile systems."
+            >
+              Menguasai alur pengembangan end - to - end dari backend hingga
+              frontend sehingga mampu membangun sistem web dan mobile secara
+              utuh.
+            </p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">💎</div>
+            <h3
+              class="pillar-title"
+              data-id="Kepemimpinan"
+              data-en="Leadership"
+            >
+              Kepemimpinan
+            </h3>
+            <p
+              class="pillar-description"
+              data-id="Pengalaman memimpin organisasi sebagai Ketua Umum HIMTI, Wakil Presiden Mahasiswa BEM, dan Kepala Bidang IMM, membentuk cara saya mengelola proyek dan berkoordinasi dalam tim."
+              data-en="Experience leading organizations as General Chairman of HIMTI, Vice President of the Student Executive Board (BEM), and Head of Division at IMM shaped how I manage projects and coordinate within a team."
+            >
+              Pengalaman memimpin organisasi sebagai Ketua Umum HIMTI, Wakil
+              Presiden Mahasiswa BEM, dan Kepala Bidang IMM, membentuk cara saya
+              mengelola proyek dan berkoordinasi dalam tim.
+            </p>
+          </div>
+
+          <div class="pillar">
+            <div class="pillar-icon">🔬</div>
+            <h3
+              class="pillar-title"
+              data-id="Ketelitian"
+              data-en="Attention to Detail"
+            >
+              Ketelitian
+            </h3>
+            <p
+              class="pillar-description"
+              data-id="Setiap baris kode, struktur basis data, dan alur sistem dirancang dengan cermat menggunakan Laravel, Filament, dan praktik terbaik pengembangan web maupun mobile modern."
+              data-en="Every line of code, database structure, and system flow is carefully designed using Laravel, Filament, and modern web and mobile development best practices."
+            >
+              Setiap baris kode, struktur basis data, dan alur sistem dirancang
+              dengan cermat menggunakan Laravel, Filament, dan praktik terbaik
+              pengembangan web maupun mobile modern.
+            </p>
+          </div>
+        </div>
+
+        <div class="philosophy-particles" id="particles">
+          <!-- Particles will be generated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <style>
+      /* =========================================================
+   ABOUT / TENTANG SAYA
+   ========================================================= */
+
+      /* Section utama */
+      #about.philosophy-section {
+        padding: 120px 24px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Container utama */
+      #about .philosophy-container {
+        width: 100%;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 40px;
+        box-sizing: border-box;
+      }
+
+      /* Judul */
+      #about .philosophy-headline {
+        text-align: center;
+        margin-bottom: 45px;
+      }
+
+      /* Garis prism */
+      #about .prism-line {
+        width: 100%;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* =========================================================
+   ABOUT CONTENT
+   ========================================================= */
+
+      #about .about-content {
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto 70px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 60px;
+      }
+
+      /* =========================================================
+   FOTO
+   ========================================================= */
+
+      #about .about-photo {
+        flex: 0 0 360px;
+        width: 360px;
+        max-width: 100%;
+      }
+
+      #about .about-photo img {
+        display: block;
+
+        width: 100%;
+        height: auto;
+
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+
+        border-radius: 18px;
+
+        border: 2px solid var(--metal-dark);
+
+        box-shadow:
+          0 20px 40px rgba(0, 0, 0, 0.5),
+          0 0 30px rgba(153, 69, 255, 0.08);
+
+        transition:
+          transform 0.35s ease,
+          box-shadow 0.35s ease;
+      }
+
+      #about .about-photo img:hover {
+        transform: translateY(-6px);
+
+        box-shadow:
+          0 25px 50px rgba(0, 0, 0, 0.6),
+          0 0 35px rgba(153, 69, 255, 0.18);
+      }
+
+      /* =========================================================
+   TEXT
+   ========================================================= */
+
+      #about .about-text {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 650px;
+      }
+
+      #about .about-text .philosophy-subheading {
+        width: 100%;
+        margin: 0 0 22px;
+
+        text-align: left;
+
+        color: var(--text-secondary);
+
+        font-size: 16px;
+        line-height: 1.85;
+      }
+
+      #about .about-text .philosophy-subheading strong {
+        color: var(--text-primary);
+        font-weight: 700;
+      }
+
+      /* Paragraf terakhir */
+      #about .about-text .philosophy-subheading:last-of-type {
+        margin-bottom: 0;
+      }
+
+      /* =========================================================
+   DOWNLOAD CV
+   ========================================================= */
+
+      #about .btn-download-cv {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 10px;
+
+        margin-top: 25px;
+        padding: 14px 28px;
+
+        background: linear-gradient(
+          135deg,
+          var(--accent-purple),
+          var(--accent-blue)
+        );
+
+        color: var(--text-primary);
+
+        font-size: 15px;
+        font-weight: 700;
+
+        font-family: inherit;
+
+        text-transform: uppercase;
+        letter-spacing: 1px;
+
+        text-decoration: none;
+
+        border: none;
+        border-radius: 10px;
+
+        cursor: pointer;
+
+        box-shadow: 0 8px 20px rgba(153, 69, 255, 0.3);
+
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      #about .btn-download-cv:hover {
+        transform: translateY(-3px);
+
+        box-shadow: 0 12px 28px rgba(153, 69, 255, 0.5);
+      }
+
+      #about .btn-download-cv:active {
+        transform: translateY(-1px);
+
+        box-shadow: 0 6px 14px rgba(153, 69, 255, 0.35);
+      }
+
+      #about .btn-download-cv i {
+        font-size: 14px;
+      }
+
+      /* =========================================================
+   PILARS
+   ========================================================= */
+
+      #about .philosophy-pillars {
+        width: 100%;
+        max-width: 1120px;
+
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* =========================================================
+   TABLET
+   ========================================================= */
+
+      @media (max-width: 1000px) {
+        #about.philosophy-section {
+          padding: 100px 20px;
+        }
+
+        #about .philosophy-container {
+          padding: 0 25px;
+        }
+
+        #about .about-content {
+          gap: 40px;
+        }
+
+        #about .about-photo {
+          flex: 0 0 320px;
+          width: 320px;
+        }
+
+        #about .about-text {
+          max-width: 560px;
+        }
+      }
+
+      /* =========================================================
+   MOBILE
+   ========================================================= */
+
+      @media (max-width: 768px) {
+        #about.philosophy-section {
+          padding: 80px 16px;
+        }
+
+        #about .philosophy-container {
+          padding: 0 12px;
+        }
+
+        #about .about-content {
+          flex-direction: column;
+
+          gap: 35px;
+
+          margin-bottom: 50px;
+
+          text-align: center;
+        }
+
+        #about .about-photo {
+          flex: none;
+
+          width: 100%;
+          max-width: 320px;
+
+          margin: 0 auto;
+        }
+
+        #about .about-text {
+          width: 100%;
+          max-width: 650px;
+
+          margin: 0 auto;
+        }
+
+        #about .about-text .philosophy-subheading {
+          text-align: center;
+
+          font-size: 15px;
+          line-height: 1.8;
+        }
+
+        #about .btn-download-cv {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+
+      /* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+      @media (max-width: 480px) {
+        #about.philosophy-section {
+          padding: 70px 12px;
+        }
+
+        #about .philosophy-container {
+          padding: 0 8px;
+        }
+
+        #about .about-content {
+          gap: 28px;
+        }
+
+        #about .about-photo {
+          max-width: 280px;
+        }
+
+        #about .about-text .philosophy-subheading {
+          font-size: 14px;
+          line-height: 1.75;
+        }
+
+        #about .btn-download-cv {
+          width: 100%;
+          max-width: 280px;
+
+          padding: 13px 20px;
+
+          font-size: 13px;
+        }
+      }
+
+      /* =========================================================
+   FOTO ABOUT - HOVER ANIMATION
+   ========================================================= */
+
+      #about .about-photo {
+        flex: 0 0 360px;
+        width: 360px;
+
+        position: relative;
+
+        /* Agar efek 3D terlihat */
+        perspective: 1000px;
+      }
+
+      /* Glow di belakang foto */
+      #about .about-photo::before {
+        content: "";
+
+        position: absolute;
+
+        inset: -8px;
+
+        border-radius: 22px;
+
+        background: linear-gradient(
+          135deg,
+          var(--accent-purple),
+          var(--accent-blue),
+          var(--accent-cyan),
+          var(--accent-purple)
+        );
+
+        background-size: 300% 300%;
+
+        opacity: 0;
+
+        filter: blur(18px);
+
+        z-index: 0;
+
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+
+        animation: aboutPhotoGlow 5s ease infinite;
+      }
+
+      /* Foto */
+      #about .about-photo img {
+        position: relative;
+        z-index: 1;
+
+        display: block;
+
+        width: 100%;
+        height: auto;
+
+        aspect-ratio: 4 / 5;
+
+        object-fit: cover;
+
+        border-radius: 18px;
+
+        border: 2px solid var(--metal-dark);
+
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+
+        transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
+
+        transition:
+          transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.5s ease,
+          border-color 0.5s ease,
+          filter 0.5s ease;
+      }
+
+      /* =========================================================
+   HOVER
+   ========================================================= */
+
+      #about .about-photo:hover::before {
+        opacity: 0.7;
+
+        transform: scale(1.05);
+      }
+
+      #about .about-photo:hover img {
+        /* Efek zoom + 3D */
+        transform: perspective(1000px) rotateX(2deg) rotateY(-4deg) scale(1.04);
+
+        /* Glow */
+        box-shadow:
+          0 30px 60px rgba(0, 0, 0, 0.65),
+          0 0 25px rgba(153, 69, 255, 0.35),
+          0 0 50px rgba(0, 180, 255, 0.15);
+
+        /* Border ikut menyala */
+        border-color: var(--accent-purple);
+
+        /* Sedikit meningkatkan kualitas visual */
+        filter: brightness(1.05) saturate(1.08);
+      }
+
+      /* =========================================================
+   ANIMASI GLOW
+   ========================================================= */
+
+      @keyframes aboutPhotoGlow {
+        0% {
+          background-position: 0% 50%;
+        }
+
+        50% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* =========================================================
+   MOBILE
+   ========================================================= */
+
+      @media (max-width: 768px) {
+        #about .about-photo {
+          width: 100%;
+          max-width: 320px;
+        }
+
+        /*
+       Matikan efek 3D berlebihan di mobile
+       karena tidak ada hover seperti desktop.
+    */
+        #about .about-photo:hover img {
+          transform: scale(1.02);
+        }
+      }
+    </style>
+
+    <section class="skills-section" id="skills">
+      <div class="skills-container">
+        <div class="section-header">
+          <h2 class="section-title">Skills</h2>
+          <p
+            class="section-subtitle"
+            data-id="Teknologi dan tools yang digunakan dalam pengembangan sistem informasi"
+            data-en="Technologies and tools used in developing information systems"
+          >
+            Teknologi dan tools yang digunakan dalam pengembangan sistem
+            informasi
+          </p>
+        </div>
+
+        <div class="skill-categories">
+          <div
+            class="category-tab active"
+            data-category="all"
+            data-id="Semua"
+            data-en="All"
+          >
+            Semua
+          </div>
+          <div class="category-tab" data-category="frontend">Frontend</div>
+          <div class="category-tab" data-category="backend">Backend</div>
+          <div class="category-tab" data-category="database">Database</div>
+          <div
+            class="category-tab"
+            data-category="tools"
+            data-id="Tools & Lainnya"
+            data-en="Tools & Others"
+          >
+            Tools & Lainnya
+          </div>
+        </div>
+
+        <div class="skills-hexagon-grid" id="skillsGrid">
+          <!-- Hexagonal skill items will be generated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="section-header">
+        <h2 class="section-title" data-id="Hubungi Saya" data-en="Contact Me">
+          Hubungi Saya
+        </h2>
+        <p
+          class="section-subtitle"
+          data-id="Tertarik berkolaborasi atau ingin mendiskusikan proyek? Mari terhubung."
+          data-en="Interested in collaborating or want to discuss a project? Let's connect."
+        >
+          Tertarik berkolaborasi atau ingin mendiskusikan proyek? Mari
+          terhubung.
+        </p>
+      </div>
+
+      <div class="contact-container">
+        <div class="contact-info">
+          <a
+            href="https://maps.google.com/?q=Pontianak+Kalimantan+Barat"
+            target="_blank"
+            class="info-item"
+          >
+            <div class="info-icon">📍</div>
+            <div class="info-text">
+              <h4 data-id="Lokasi" data-en="Location">Lokasi</h4>
+              <p
+                data-id="Pontianak, Kalimantan Barat"
+                data-en="Pontianak, West Kalimantan"
+              >
+                Pontianak, Kalimantan Barat
+              </p>
+            </div>
+          </a>
+
+          <a href="mailto:hengkisupriadi9103@gmail.com" class="info-item">
+            <div class="info-icon">📧</div>
+            <div class="info-text">
+              <h4>Email</h4>
+              <p>hengkisupriadi9103@gmail.com</p>
+            </div>
+          </a>
+
+          <a
+            href="https://wa.me/6281345520574"
+            target="_blank"
+            class="info-item"
+          >
+            <div class="info-icon">📱</div>
+            <div class="info-text">
+              <h4>WhatsApp</h4>
+              <p>+62 813-4552-0574</p>
+            </div>
+          </a>
+
+          <a
+            href="https://github.com/HengkiSupriadi"
+            target="_blank"
+            class="info-item"
+          >
+            <div class="info-icon">💻</div>
+            <div class="info-text">
+              <h4>GitHub</h4>
+              <p>Hengki Supriadi</p>
+            </div>
+          </a>
+        </div>
+
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <label for="name" data-id="Nama" data-en="Name">Nama</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="subject" data-id="Subjek" data-en="Subject"
+              >Subjek</label
+            >
+            <input type="text" id="subject" name="subject" required />
+          </div>
+
+          <div class="form-group">
+            <label for="message" data-id="Pesan" data-en="Message">Pesan</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="submit-btn"
+            data-id="Kirim Pesan"
+            data-en="Send Message"
+          >
+            Kirim Pesan
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <!-- <div class="logo-icon">
+              <div class="logo-prism">
+                <div class="prism-shape"></div>
+              </div>
+            </div> -->
+            <span class="logo-text">
+              <span class="prism">HENGKI SUPRIYADI</span>
+            </span>
+          </div>
+          <p
+            class="footer-description"
+            data-id="Mahasiswa Teknologi Informasi yang fokus membangun sistem informasi berbasis web menggunakan Laravel dan ekosistemnya."
+            data-en="Information Technology student focused on building web-based information systems using Laravel and its ecosystem."
+          >
+            Mahasiswa Teknologi Informasi yang fokus membangun sistem informasi
+            berbasis web dan mobile.
+          </p>
+          <div class="footer-social">
+            <a
+              href="https://facebook.com/hengkisupriadi"
+              class="social-icon"
+              target="_blank"
+              aria-label="Facebook"
+            >
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+
+            <a
+              href="https://github.com/HengkiSupriadi"
+              class="social-icon"
+              target="_blank"
+              aria-label="GitHub"
+            >
+              <i class="fa-brands fa-github"></i>
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/hengki-supriadi913"
+              class="social-icon"
+              target="_blank"
+              aria-label="LinkedIn"
+            >
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+
+            <a
+              href="https://instagram.com/hngki.sprdi"
+              class="social-icon"
+              target="_blank"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ^ footer-brand ditutup di sini -->
+
+        <div class="footer-section">
+          <h4 data-id="Layanan" data-en="Services">Layanan</h4>
+          <div class="footer-links">
+            <a href="#" data-id="Pengembangan Web" data-en="Web Development"
+              >Sistem</a
+            >
+            <a href="#" data-id="Sistem Informasi" data-en="Information Systems"
+              >Sistem Informasi</a
+            >
+            <a href="#">Custom App</a>
+            <a
+              href="#"
+              data-id="Konsultasi Sistem"
+              data-en="System Consultation"
+              >Konsultasi Sistem</a
+            >
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h4 data-id="Tentang" data-en="About">Tentang</h4>
+          <div class="footer-links">
+            <a href="#about" data-id="Tentang Saya" data-en="About Me"
+              >Tentang Saya</a
+            >
+            <a href="#skills" data-id="Keahlian" data-en="Skills">Keahlian</a>
+            <!-- <a href="#stats" data-id="Pencapaian" data-en="Achievements"
+              >Pencapaian</a -->
+            >
+            <a href="#contact" data-id="Kontak" data-en="Contact">Kontak</a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h4 data-id="Proyek" data-en="Projects">Proyek</h4>
+          <div class="footer-links">
+            <a href="#portfolio" data-id="Portofolio" data-en="Portfolio"
+              >Portofolio</a
+            >
+            <a href="https://github.com/HengkiSupriadi" target="_blank"
+              >GitHub</a
+            >
+            <a href="#">Resume/CV</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div
+          class="copyright"
+          data-id="© 2026 Hengki. Seluruh hak cipta dilindungi."
+          data-en="© 2026 Hengki. All rights reserved."
+        >
+          © 2026 Hengki.
+        </div>
+      </div>
+    </footer>
+    <script src="templatemo-prism-scripts.js"></script>
+    <div id="chatbot-container"></div>
+
+    <script>
+      fetch("chatbot.html")
+        .then((res) => res.text())
+        .then((html) => {
+          const container = document.getElementById("chatbot-container");
+          container.innerHTML = html;
+
+          // WAJIB: eksekusi ulang semua <script> di dalam HTML yang di-inject,
+          // karena innerHTML tidak otomatis menjalankan script.
+          container.querySelectorAll("script").forEach((oldScript) => {
+            const newScript = document.createElement("script");
+            if (oldScript.src) {
+              newScript.src = oldScript.src;
+            } else {
+              newScript.textContent = oldScript.textContent;
+            }
+            document.body.appendChild(newScript);
+            oldScript.remove(); // hapus script lama yang tidak aktif
+          });
+        })
+        .catch((err) => {
+          console.error("Gagal memuat live chat widget:", err);
+        });
+    </script>
+  </body>
+</html>

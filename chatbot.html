@@ -1,0 +1,648 @@
+<!-- ============================================= -->
+<!-- START LIVECHAT WIDGET (Isolated - no conflict) -->
+<!-- ============================================= -->
+<style>
+  #lc-widget-container,
+  #lc-widget-container * {
+    box-sizing: border-box;
+    font-family: "Exo", sans-serif;
+  }
+
+  #lc-widget-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 99999;
+  }
+
+  .lc-toggle-btn {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      var(--accent-green),
+      var(--accent-cyan)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(0, 255, 136, 0.5);
+    position: relative;
+    animation: lc-pulse 2.2s infinite;
+    transition: transform 0.25s ease;
+  }
+
+  .lc-toggle-btn:hover {
+    transform: scale(1.08);
+  }
+
+  .lc-toggle-btn i {
+    color: var(--primary-black);
+    font-size: 26px;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  .lc-toggle-btn .lc-icon-close {
+    position: absolute;
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+  }
+
+  #lc-widget-container.lc-open .lc-toggle-btn .lc-icon-chat {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+  }
+
+  #lc-widget-container.lc-open .lc-toggle-btn .lc-icon-close {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  .lc-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--accent-red);
+    color: var(--text-primary);
+    font-size: 11px;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: lc-bounce 1.4s infinite;
+    border: 2px solid var(--primary-black);
+  }
+
+  .lc-ping {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0, 255, 136, 0.6);
+    animation: lc-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    z-index: -1;
+  }
+
+  .lc-chat-box {
+    position: absolute;
+    bottom: 78px;
+    left: 0;
+    width: 340px;
+    max-width: 88vw;
+    height: 460px;
+    max-height: 70vh;
+    background: var(--carbon-dark);
+    border: 1px solid var(--metal-dark);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(0.92);
+    pointer-events: none;
+    transform-origin: bottom left;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  #lc-widget-container.lc-open .lc-chat-box {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .lc-chat-header {
+    background: linear-gradient(
+      135deg,
+      var(--carbon-light),
+      var(--carbon-medium)
+    );
+    border-bottom: 1px solid var(--accent-green);
+    color: var(--text-primary);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .lc-chat-header .lc-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-black);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .lc-chat-header .lc-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin: 0;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .lc-chat-header .lc-status {
+    font-size: 12px;
+    color: var(--text-secondary);
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .lc-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    display: inline-block;
+    animation: lc-blink 1.6s infinite;
+  }
+
+  .lc-chat-body {
+    flex: 1;
+    padding: 14px;
+    overflow-y: auto;
+    background: var(--carbon-dark);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .lc-chat-body::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .lc-chat-body::-webkit-scrollbar-thumb {
+    background: var(--metal-light);
+    border-radius: 10px;
+  }
+
+  .lc-msg {
+    max-width: 78%;
+    padding: 9px 13px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    line-height: 1.4;
+    animation: lc-msg-in 0.35s ease forwards;
+    opacity: 0;
+  }
+
+  .lc-msg-bot {
+    background: var(--carbon-medium);
+    color: var(--text-primary);
+    border: 1px solid var(--metal-dark);
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .lc-msg-user {
+    background: linear-gradient(
+      135deg,
+      var(--accent-green),
+      var(--accent-cyan)
+    );
+    color: var(--primary-black);
+    font-weight: 600;
+    border-bottom-right-radius: 4px;
+    align-self: flex-end;
+  }
+
+  .lc-typing {
+    align-self: flex-start;
+    background: var(--carbon-medium);
+    border: 1px solid var(--metal-dark);
+    padding: 10px 14px;
+    border-radius: 14px;
+    border-bottom-left-radius: 4px;
+    display: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .lc-typing.lc-show {
+    display: flex;
+    gap: 4px;
+  }
+
+  .lc-typing span {
+    width: 6px;
+    height: 6px;
+    background: var(--metal-light);
+    border-radius: 50%;
+    animation: lc-typing-bounce 1.2s infinite;
+  }
+
+  .lc-typing span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .lc-typing span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .lc-quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 14px 10px;
+    background: var(--carbon-dark);
+  }
+
+  .lc-chip {
+    background: var(--carbon-medium);
+    border: 1px solid var(--accent-green);
+    color: var(--accent-green);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .lc-chip:hover {
+    background: var(--accent-green);
+    color: var(--primary-black);
+  }
+
+  .lc-chat-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-top: 1px solid var(--metal-dark);
+    background: var(--carbon-medium);
+  }
+
+  .lc-chat-footer input {
+    flex: 1;
+    background: var(--carbon-light);
+    color: var(--text-primary);
+    border: 1px solid var(--metal-dark);
+    border-radius: 20px;
+    padding: 9px 15px;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .lc-chat-footer input::placeholder {
+    color: var(--text-dim);
+  }
+
+  .lc-chat-footer input:focus {
+    border-color: var(--accent-green);
+  }
+
+  .lc-send-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    border: none;
+    color: var(--primary-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition:
+      transform 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .lc-send-btn:hover {
+    background: var(--accent-cyan);
+    transform: scale(1.06);
+  }
+
+  @keyframes lc-pulse {
+    0%,
+    100% {
+      box-shadow: 0 4px 18px rgba(0, 255, 136, 0.5);
+    }
+
+    50% {
+      box-shadow: 0 4px 28px rgba(0, 255, 136, 0.8);
+    }
+  }
+
+  @keyframes lc-ping {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+
+    100% {
+      transform: scale(1.9);
+      opacity: 0;
+    }
+  }
+
+  @keyframes lc-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  @keyframes lc-blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes lc-msg-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes lc-typing-bounce {
+    0%,
+    60%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.5;
+    }
+
+    30% {
+      transform: translateY(-5px);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #lc-widget-container {
+      bottom: 14px;
+      left: 14px;
+    }
+
+    .lc-chat-box {
+      width: 92vw;
+      height: 65vh;
+    }
+  }
+</style>
+
+<div id="lc-widget-container">
+  <div class="lc-chat-box" id="lcChatBox">
+    <div class="lc-chat-header">
+      <div class="lc-avatar"><i class="bi bi-person-badge"></i></div>
+      <div>
+        <p class="lc-title">Hengki Supriyadi</p>
+        <span class="lc-status"
+          ><span class="lc-status-dot"></span> Online - Siap membantu</span
+        >
+      </div>
+    </div>
+
+    <div class="lc-chat-body" id="lcChatBody">
+      <div class="lc-msg lc-msg-bot">
+        Halo! 👋 Terima kasih sudah mengunjungi portofolio saya. Ada yang bisa
+        saya bantu — mau tanya soal proyek, skill, atau kolaborasi?
+      </div>
+      <div class="lc-typing" id="lcTyping">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="lc-quick-replies">
+      <div class="lc-chip" data-msg="Lihat proyek">Tentang Saya</div>
+      <div class="lc-chip" data-msg="Skill & keahlian">Skill & keahlian</div>
+      <div class="lc-chip" data-msg="Download CV">Download CV</div>
+      <!-- <div class="lc-chip" data-msg="Diskusi proyek">Diskusi proyek</div> -->
+    </div>
+
+    <div class="lc-chat-footer">
+      <input type="text" id="lcInput" placeholder="Tulis pesan Anda..." />
+      <button class="lc-send-btn" id="lcSendBtn">
+        <i class="bi bi-send-fill"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="lc-toggle-btn" id="lcToggleBtn">
+    <div class="lc-ping"></div>
+    <i class="bi bi-whatsapp lc-icon-chat"></i>
+    <i class="bi bi-x-lg lc-icon-close"></i>
+    <span class="lc-badge" id="lcBadge">1</span>
+  </div>
+</div>
+<script>
+  (function () {
+    var container = document.getElementById("lc-widget-container");
+    var toggleBtn = document.getElementById("lcToggleBtn");
+    var chatBody = document.getElementById("lcChatBody");
+    var typingEl = document.getElementById("lcTyping");
+    var input = document.getElementById("lcInput");
+    var sendBtn = document.getElementById("lcSendBtn");
+    var badge = document.getElementById("lcBadge");
+    var chips = document.querySelectorAll("#lc-widget-container .lc-chip");
+
+    // Konfigurasi mudah diubah
+    var WA_NUMBER = "6281345520574"; // nomor WhatsApp Hengki (dari section contact)
+
+    toggleBtn.addEventListener("click", function () {
+      container.classList.toggle("lc-open");
+      badge.style.display = "none";
+    });
+
+    function lcAddMessage(text, sender) {
+      var msg = document.createElement("div");
+      msg.className =
+        "lc-msg " + (sender === "user" ? "lc-msg-user" : "lc-msg-bot");
+      msg.textContent = text;
+      chatBody.insertBefore(msg, typingEl);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function lcBotReply(userText) {
+      typingEl.classList.add("lc-show");
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      setTimeout(
+        function () {
+          typingEl.classList.remove("lc-show");
+          var reply = lcGenerateReply(userText);
+          lcAddMessage(reply.text, "bot");
+          if (reply.action === "whatsapp") {
+            lcOpenWhatsapp(userText);
+          } else if (reply.action === "cv") {
+            lcDownloadCV();
+          } else if (reply.action === "scroll") {
+            lcScrollTo(reply.target);
+          }
+        },
+        900 + Math.random() * 600,
+      );
+    }
+
+    function lcOpenWhatsapp(userText) {
+      var WA_NUMBER = "6281345520574";
+
+      var pesan =
+        "Halo Hengki, saya tertarik untuk berdiskusi soal proyek/kolaborasi.";
+
+      if (userText && userText.trim() !== "") {
+        pesan += "\n\nPesan saya:\n" + userText.trim();
+      }
+
+      var url =
+        "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(pesan);
+
+      // Buka WhatsApp di tab baru
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    function lcDownloadCV() {
+      var link = document.createElement("a");
+      link.href = "assets/hengki-cv.pdf";
+      link.download = "CV-Hengki-Supriyadi.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function lcScrollTo(targetId) {
+      var el = document.querySelector(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+        container.classList.remove("lc-open");
+      }
+    }
+
+    // Balasan berbasis kata kunci, disesuaikan untuk konteks portofolio
+    function lcGenerateReply(text) {
+      var t = text.toLowerCase();
+
+      if (t.includes("proyek") || t.includes("portofolio")) {
+        return {
+          text: "Saya sudah membangun beberapa sistem seperti manajemen aset kampus, distribusi barang, aplikasi POS, dan pemesanan tiket online — semuanya berbasis Laravel. Saya scroll-kan ke bagian proyek ya 👇",
+          action: "scroll",
+          target: "#about",
+        };
+      } else if (t.includes("skill") || t.includes("keahlian")) {
+        return {
+          text: "Saya fokus sebagai Fullstack Developer (web & mobile) dengan stack utama Laravel, Filament, MySQL, dan Livewire. Saya arahkan ke bagian Skills ya 👇",
+          action: "scroll",
+          target: "#skills",
+        };
+      } else if (t.includes("cv") || t.includes("resume")) {
+        return {
+          text: "Baik, CV saya sedang diunduh untuk Anda 📄",
+          action: "cv",
+        };
+      } else if (
+        t.includes("diskusi") ||
+        t.includes("kolaborasi") ||
+        t.includes("hubungi") ||
+        t.includes("kontak")
+      ) {
+        return {
+          text: "Siap! Saya lanjutkan ke WhatsApp ya, supaya kita bisa diskusi lebih lanjut 📞",
+          action: "whatsapp",
+        };
+      } else if (
+        t.includes("harga") ||
+        t.includes("biaya") ||
+        t.includes("tarif")
+      ) {
+        return {
+          text: "Untuk pembahasan biaya proyek, lebih enak kita diskusikan langsung via WhatsApp ya, biar bisa saya sesuaikan dengan kebutuhan Anda 💬",
+          action: "whatsapp",
+        };
+      } else {
+        return {
+          text: "Terima kasih atas pesannya! Kalau ingin respons lebih cepat, silakan lanjut ke WhatsApp saya ya 🙏",
+        };
+      }
+    }
+
+    function lcSendUserMessage(text) {
+      text = text.trim();
+
+      if (!text) return;
+
+      // Tampilkan pesan user di chatbot
+      lcAddMessage(text, "user");
+
+      input.value = "";
+
+      // Langsung buka WhatsApp
+      lcOpenWhatsapp(text);
+    }
+
+    sendBtn.addEventListener("click", function () {
+      lcSendUserMessage(input.value);
+    });
+
+    input.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        lcSendUserMessage(input.value);
+      }
+    });
+
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        lcSendUserMessage(chip.getAttribute("data-msg"));
+      });
+    });
+
+    document.addEventListener("click", function (e) {
+      if (
+        container.classList.contains("lc-open") &&
+        !container.contains(e.target)
+      ) {
+        container.classList.remove("lc-open");
+      }
+    });
+
+    container.addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+
+    document
+      .querySelectorAll("a:not(#lc-widget-container a)")
+      .forEach(function (link) {
+        link.addEventListener("click", function () {
+          container.classList.remove("lc-open");
+        });
+      });
+
+    setTimeout(function () {
+      if (!container.classList.contains("lc-open")) {
+        badge.style.display = "flex";
+      }
+    }, 3000);
+  })();
+</script>
